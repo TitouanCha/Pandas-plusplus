@@ -1,7 +1,10 @@
 #include <iostream>
-using namespace std;
+#include <string>
+#include "Serie.hpp" 
+
 
 int main() {
-    cout << "Hello, le world!" << endl;
+    Serie<int> testSerie("MyIntSerie", 5, 9);
+    std::cout << testSerie.operator()(2) << std::endl; 
     return 0;
 }

@@ -21,52 +21,22 @@ public:
 
     // Opérateurs arithmétiques //
     Serie<T> operator+(const Serie<T>& other) const {
-        if (data.size() != other.data.size())
-            throw std::invalid_argument("Size not matching");
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] + other.data[i]);
-        return Serie<T>("result", result);
+        return arithmetic(other, std::plus<T>());
     }
     Serie<T> operator+=(const T value) const {
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] + value);
-        return Serie<T>("result", result);
+        return arithmetic(value, std::plus<T>());
     }
     Serie<T> operator-(const Serie<T>& other) const {
-        if (data.size() != other.data.size())
-            throw std::invalid_argument("Size not matching");
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] - other.data[i]);
-        return Serie<T>("result", result);
+        return arithmetic(other, std::minus<T>());
     }
     Serie<T> operator-=(const T value) const {
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] - value);
-        return Serie<T>("result", result);
+        return arithmetic(value, std::minus<T>());
     }
     Serie<T> operator*(const Serie<T>& other) const {
-        if (data.size() != other.data.size())
-            throw std::invalid_argument("Size not matching");
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] * other.data[i]);
-        return Serie<T>("result", result);
+        return arithmetic(other, std::multiplies<T>());
     }
     Serie<T> operator*=(const T value) const {
-        std::vector<T> result;
-        result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
-            result.push_back(data[i] * value);
-        return Serie<T>("result", result);
+        return arithmetic(value, std::multiplies<T>());
     }
     Serie<T> operator/(const Serie<T>& other) const {
         if (data.size() != other.data.size())
@@ -195,6 +165,32 @@ public:
     }
 
 private:
+    template<typename Operator>
+    Serie<T> arithmetic(const Serie<T>& other, Operator op) const {
+        size_t size = data.size();
+        if (size != other.data.size())
+            throw std::invalid_argument("Size not matching");
+
+        std::vector<T> result;
+        result.reserve(size);
+        for (int i = 0; i < size; ++i) {
+            T value = op(data[i], other.data[i]);
+            result.push_back(value);
+        }
+        return Serie<T>("result", result);
+    }
+    template<typename Operator>
+    Serie<T> arithmetic(const T& value, Operator op) const {
+        size_t size = data.size();
+        std::vector<T> result;
+        result.reserve(size);
+        for (int i = 0; i < size; ++i) {
+            T v = op(data[i], value);
+            result.push_back(v);
+        }
+        return Serie<T>("result", result);
+    }
+
     template<typename Operator>
     Serie<bool> compare(const Serie<T>& other, Operator op) const {
         size_t size = data.size();

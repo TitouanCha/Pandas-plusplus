@@ -82,7 +82,7 @@ public:
             throw std::invalid_argument("Size not matching");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i < data.size(); i++) {
             if (other.data[i] == T(0))
                 throw std::invalid_argument("Division by zero");
             result.push_back(data[i] / other.data[i]);
@@ -98,7 +98,7 @@ public:
             throw std::invalid_argument("Division by zero");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             result.push_back(data[i] / value);
         return Serie<T>("result", result);
     }
@@ -112,7 +112,7 @@ public:
         if (data.size() != mask.size()) throw std::invalid_argument("Size not matching");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             if (mask.get(i)) result.push_back(data[i]);
         return Serie<T>("result", result);
     }
@@ -121,7 +121,7 @@ public:
     Serie<T> operator[](const Serie<int>& indices) const {
         std::vector<T> result;
         result.reserve(indices.size());
-        for (size_t i = 0; i < indices.size(); ++i) {
+        for (size_t i = 0; i < indices.size(); i++) {
             int idx = indices.get(i);
             if (idx < 0 || static_cast<size_t>(idx) >= data.size())
                 throw std::out_of_range("Index out of range");
@@ -138,7 +138,7 @@ public:
     Serie<T> operator[](Predicate pred) const {
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             if (pred(data[i])) result.push_back(data[i]);
         return Serie<T>("result", result);
     }
@@ -184,7 +184,7 @@ public:
     // Affichage
     friend std::ostream& operator<<(std::ostream& os, const Serie<T>& s) {
         os << "[ ";
-        for (size_t i = 0; i < s.data.size(); ++i) {
+        for (size_t i = 0; i < s.data.size(); i++) {
             os << s.data[i];
             if (i + 1 < s.data.size()) os << ", ";
         }
@@ -253,7 +253,7 @@ private:
             throw std::invalid_argument("Size not matching");
         std::vector<T> result;
         result.reserve(sz);
-        for (size_t i = 0; i < sz; ++i)
+        for (size_t i = 0; i < sz; i++)
             result.push_back(op(data[i], other.data[i]));
         return Serie<T>("result", result);
     }
@@ -262,7 +262,7 @@ private:
     Serie<T> arithmetic(const T& value, Operator op) const {
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             result.push_back(op(data[i], value));
         return Serie<T>("result", result);
     }
@@ -272,7 +272,7 @@ private:
         size_t sz = std::min(data.size(), other.data.size());
         std::vector<bool> result;
         result.reserve(sz);
-        for (size_t i = 0; i < sz; ++i)
+        for (size_t i = 0; i < sz; i++)
             result.push_back(op(data[i], other.data[i]));
         return Serie<bool>("result", result);
     }
@@ -281,7 +281,7 @@ private:
     Serie<bool> compare(const T& value, Operator op) const {
         std::vector<bool> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             result.push_back(op(data[i], value));
         return Serie<bool>("result", result);
     }
@@ -293,7 +293,7 @@ inline Serie<bool> operator&&(const Serie<bool>& lhs, const Serie<bool>& rhs) {
         throw std::invalid_argument("Size not matching");
     std::vector<bool> result;
     result.reserve(lhs.size());
-    for (size_t i = 0; i < lhs.size(); ++i)
+    for (size_t i = 0; i < lhs.size(); i++)
         result.push_back(lhs.get(i) && rhs.get(i));
     return Serie<bool>("result", result);
 }
@@ -303,7 +303,7 @@ inline Serie<bool> operator||(const Serie<bool>& lhs, const Serie<bool>& rhs) {
         throw std::invalid_argument("Size not matching");
     std::vector<bool> result;
     result.reserve(lhs.size());
-    for (size_t i = 0; i < lhs.size(); ++i)
+    for (size_t i = 0; i < lhs.size(); i++)
         result.push_back(lhs.get(i) || rhs.get(i));
     return Serie<bool>("result", result);
 }
@@ -311,7 +311,7 @@ inline Serie<bool> operator||(const Serie<bool>& lhs, const Serie<bool>& rhs) {
 inline Serie<bool> operator!(const Serie<bool>& s) {
     std::vector<bool> result;
     result.reserve(s.size());
-    for (size_t i = 0; i < s.size(); ++i)
+    for (size_t i = 0; i < s.size(); i++)
         result.push_back(!s.get(i));
     return Serie<bool>("result", result);
 }

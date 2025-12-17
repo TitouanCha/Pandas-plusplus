@@ -52,7 +52,7 @@ public:
         return Serie<bool>("result", out);
     }
 
-    // Opérateurs arithmétiques //
+    // Opérateurs arithmétiques
     Serie<T> operator+(const Serie<T>& other) const {
         return arithmetic(other, std::plus<T>());
     }
@@ -93,7 +93,7 @@ public:
         return Serie<T>("result", result);
     }
 
-    // Indexation avancée //
+    // Indexation avancée
     Serie<T> operator[](const Serie<bool>& mask) const {
         if (data.size() != mask.size()) throw std::invalid_argument("Size not matching");
         std::vector<T> result;
@@ -114,7 +114,7 @@ public:
         return Serie<T>("result", result);
     }
 
-    // Opérateurs de comparaison //
+    // Opérateurs de comparaison
     Serie<bool> operator==(const Serie<T>& other) const {
         return compare(other, std::equal_to<T>());
     }
@@ -153,7 +153,7 @@ public:
         return compare(value, std::greater_equal<T>());
     }
 
-    // Opérateurs d'affichage //
+    // Opérateurs d'affichage
     friend std::ostream& operator<<(std::ostream& os, const Serie<T>& s) {
         size_t dataSize= s.data.size();
         os << "[ ";
@@ -165,7 +165,7 @@ public:
         return os;
     }
 
-    // Méthodes d'accès //
+    // Méthodes d'accès
     T operator[](int index) { 
         return data[static_cast<size_t>(index)]; 
     }

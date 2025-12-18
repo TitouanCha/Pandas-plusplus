@@ -25,7 +25,7 @@ public:
 
         std::vector<bool> out;
         out.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i < data.size(); i++) {
             out.push_back(data[i] && other[i]);
         }
         return Serie<bool>("result", out);
@@ -37,7 +37,7 @@ public:
 
         std::vector<bool> out;
         out.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i < data.size(); i++) {
             out.push_back(data[i] || other[i]);
         }
         return Serie<bool>("result", out);
@@ -46,7 +46,7 @@ public:
     Serie<bool> operator!() const {
         std::vector<bool> out;
         out.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i < data.size(); i++) {
             out.push_back(!data[i]);
         }
         return Serie<bool>("result", out);
@@ -76,7 +76,7 @@ public:
             throw std::invalid_argument("Size not matching");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i) {
+        for (size_t i = 0; i < data.size(); i++) {
             if (other.data[i] == T(0))
                 throw std::invalid_argument("Division by zero, t'es fous ou quoi");
             result.push_back(data[i] / other.data[i]);
@@ -88,7 +88,7 @@ public:
             throw std::invalid_argument("Division by zero, t'es fous ou quoi");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             result.push_back(data[i] / value);
         return Serie<T>("result", result);
     }
@@ -98,14 +98,14 @@ public:
         if (data.size() != mask.size()) throw std::invalid_argument("Size not matching");
         std::vector<T> result;
         result.reserve(data.size());
-        for (size_t i = 0; i < data.size(); ++i)
+        for (size_t i = 0; i < data.size(); i++)
             if (mask[i]) result.push_back(data[i]);
         return Serie<T>("result", result);
     }
     Serie<T> operator[](const Serie<int>& indices) const {
         std::vector<T> result;
         result.reserve(indices.size());
-        for (size_t i = 0; i < indices.size(); ++i) {
+        for (size_t i = 0; i < indices.size(); i++) {
             int idx = indices[i];
             if (idx < 0 || static_cast<size_t>(idx) >= data.size())
                 throw std::out_of_range("Index out of range");
@@ -157,7 +157,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Serie<T>& s) {
         size_t dataSize= s.data.size();
         os << "[ ";
-        for (int i = 0; i < dataSize; ++i) {
+        for (int i = 0; i < dataSize; i++) {
             os << s.data[i];
             if (i + 1 < dataSize) os << ", ";
         }
@@ -205,7 +205,7 @@ private:
 
         std::vector<T> result;
         result.reserve(size);
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             T value = op(data[i], other.data[i]);
             result.push_back(value);
         }
@@ -216,7 +216,7 @@ private:
         size_t size = data.size();
         std::vector<T> result;
         result.reserve(size);
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             T v = op(data[i], value);
             result.push_back(v);
         }
@@ -231,7 +231,7 @@ private:
 
         std::vector<bool> result;
         result.reserve(size);
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             bool b = static_cast<bool>(op(data[i], other.data[i]));
             result.push_back(b);
         }
@@ -243,7 +243,7 @@ private:
         size_t size = data.size();
         std::vector<bool> result;
         result.reserve(size);
-        for (int i = 0; i < size; ++i) {
+        for (int i = 0; i < size; i++) {
             bool b = static_cast<bool>(op(data[i], value));
             result.push_back(op(data[i], value));
         }
